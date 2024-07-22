@@ -1,0 +1,14 @@
+6/1
+serial 通信
+~/ls -l /dev/ttyUSB0
+~/crw-rw---- 1 root dialout 188, 0  5月 31 17:04 ttyUSB0
+
+管理者 root グループ dialout 
+であるため，exp からアクセスができない．
+そのため以下のように設定を変更
+
+管理者 root グループ exp
+~/sudo chgrp exp /dev/ttyUSB0 #グループをexpに変更
+
+~/ls -l /dev/ttyUSB0
+~/crw-rw---- 1 root exp 188, 0  5月 31 17:04 ttyUSB0

@@ -1,0 +1,14 @@
+# 全てのファイルを無視
+*
+
+# .js, .html, .css, .md, .png, .jpg, .gif, .mp4, .gitignoreを除外
+!/
+!/.gitignore
+!**/*.md
+!**/*.py
+!**/*.pyc
+!**/*.txt
+!/stage_main
+!/practice
+!/cash
+!**/__pycache__

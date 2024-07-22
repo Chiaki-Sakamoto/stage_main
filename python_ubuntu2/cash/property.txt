@@ -1,0 +1,13 @@
+最終履歴 2022-01-20 08:04:40.851802
+Exposure = 3050
+Exposure Auto = Off
+Gain = 9.2
+Gain Auto = Off
+Trigger Mode = Off
+Trigger Source = Any
+Trigger Delay (us) = 0.0
+Trigger Debouncer = 0.0
+Trigger Mask = 0.0
+Trigger Denoise = 0.0
+Trigger Burst Count = 1
+Trigger Activation = RisingEdge
