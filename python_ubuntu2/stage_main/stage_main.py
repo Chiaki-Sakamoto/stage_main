@@ -5,7 +5,7 @@ import tkinter as tk  # gui
 # from tkinter import messagebox
 import os
 import sys
-from tkinter import *
+# from tkinter import *
 # from tkinter import filedialog
 # from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg  \
 # グラフをgui 上に表示
@@ -30,13 +30,14 @@ from cmos import Cmos
 
 class Application(stage_gui.Gui):  # stage_gui.Gui を継承
     def __init__(self, master=None):  # 最初によみこまれる関数
-        super().__init__(master)  # gui.Gui(master) を継承している？
+        super().__init__(master)  # Guiクラスのコンストラクタを呼び出す
         self.master = master
         self.sername = "/dev/ttyUSB0"  # ステージコントローラーの usb ポート指定
         # self.sername = \
         # "/dev/serial/by-path/pci-0000:00:06.0-usb-0:1:1.0-port0"
         self.ser = serial.Serial(
-            self.sername, baudrate=9600,
+            self.sername,
+            baudrate=9600,
             bytesize=serial.EIGHTBITS,
             parity=serial.PARITY_NONE,
             stopbits=serial.STOPBITS_ONE,

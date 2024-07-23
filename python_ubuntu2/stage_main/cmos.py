@@ -20,7 +20,7 @@ import TIS
 # from collections import namedtuple
 
 # original #
-from python_ubuntu2.stage_main.property import Property
+from property import Property
 
 
 class CustomData:
