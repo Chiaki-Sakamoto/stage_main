@@ -8,7 +8,8 @@
 !**/*.py
 !**/*.pyc
 !**/*.txt
-!/stage_main
-!/practice
-!/cash
+!/python_ubuntu2
+!./python_ubuntu2/stage_main
+!./python_ubuntu2/practice
+!./python_ubuntu2/cash
 !**/__pycache__
