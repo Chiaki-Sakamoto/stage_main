@@ -442,11 +442,11 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         print("init move angle: %f" % (angle_move_to_init / 400))
         if (angle_move_to_init >= 0):
             self.ser.write(
-                ("M:1+P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
+                ("M:1-P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
             )
         else:
             self.ser.write(
-                ("M:1-P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
+                ("M:1+P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
             )
         self.ser.write("G\r\n".encode("ascii"))
         self.READY()
