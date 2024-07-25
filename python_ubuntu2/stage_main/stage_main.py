@@ -421,11 +421,11 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         print("start:%f, end:%f\n" % (start_angle, end_angle))
         width_angle = float(self.auto_save_width_box.get())
         if (start_angle >= end_angle):
-            direction_rotate = '+'
-        else:
             direction_rotate = '-'
+        else:
+            direction_rotate = '+'
         mesure_number = int(
-            ((end_angle - start_angle) / width_angle + 1)
+            ((end_angle - start_angle) / width_angle)
         )
         print("mesure_number: %d" % mesure_number)
         self.ser.write(("D:2S%sF%sR%sS100F1000R200\r\n" % (
@@ -450,7 +450,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
             )
         self.ser.write("G\r\n".encode("ascii"))
         self.READY()
-        print("ok!\n")
+        print("ok!")
         self.ser.write("Q:\r\n".encode("ascii"))
         current_status = self.ser.readline()
         current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
@@ -465,6 +465,11 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
             )
             self.ser.write("G\r\n".encode("ascii"))
             self.READY()
+        self.ser.write("Q:\r\n".encode("ascii"))
+        current_status = self.ser.readline()
+        current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
+        current_angle = float(current_angle) / 400
+        print("current angle: %f\n" % current_angle)
         print("\e[38;5;30mEnd of measurement\e[0m\n")
 
     def on_closing(self):
