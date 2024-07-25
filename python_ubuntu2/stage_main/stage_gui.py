@@ -756,7 +756,7 @@ class Gui(tk.Frame):
         )  # txtbox
         self.auto_save_chanel.set("C3")
         self.auto_save_chanel.grid(row=3, column=1, padx=10)
-        self.autosave_saveframe = tk.LabelFrame(
+        self.auto_save_saveframe = tk.LabelFrame(
             self.tab_auto_save,
             width=500,
             height=220,
