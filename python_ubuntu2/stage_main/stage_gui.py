@@ -107,8 +107,8 @@ class Gui(tk.Frame):
         self.gui_camera()
         self.gui_ex()
         self.gui_auto_save()
-        # tab_stage (回転ステージ) #
 
+    # tab_stage (回転ステージ) #
     def gui_stage(self):
         self.tab_stage = tk.Frame(self.nb)  # Tab を定義
         self.nb.add(self.tab_stage, text="回転ステージ")  # Tab の配置、名前
@@ -688,7 +688,7 @@ class Gui(tk.Frame):
     # 自動保存 #
     def gui_auto_save(self):
         self.auto_save = tk.Frame(self.nb)
-        self.nb.add(self.tab_ex, text="実験")
+        self.nb.add(self.tab_ex, text="自動回転保存")
 
     def on_closing(self):
         # if messagebox.askokcancel("Quit","Do you want to quit ?"):
