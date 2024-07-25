@@ -457,7 +457,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
                     abs(width_angle)
                     )).encode("ascii")
             )
-            time.sleep(200)
+            self.ser.write("G\r\n".encode("ascii"))
         print("\e[38;5;30mEnd of measurement\e[0m\n")
 
     def on_closing(self):
