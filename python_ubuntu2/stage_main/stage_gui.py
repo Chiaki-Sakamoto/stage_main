@@ -106,6 +106,7 @@ class Gui(tk.Frame):
         self.gui_oshiro()
         self.gui_camera()
         self.gui_ex()
+        self.gui_auto_save()
         # tab_stage (回転ステージ) #
 
     def gui_stage(self):
@@ -684,10 +685,10 @@ class Gui(tk.Frame):
         self.yscroll.grid(row=1, column=1, sticky=tk.E+tk.W+tk.N+tk.S)
         self.txt["yscrollcommand"] = self.yscroll.set  # txtbox と結び付け
 
-        # 自動保存 #
-        def auto_save(self):
-            self.auto_save = tk.Frame(self.nb)
-            self.nb.add(self.tab_ex, text="実験")
+    # 自動保存 #
+    def gui_auto_save(self):
+        self.auto_save = tk.Frame(self.nb)
+        self.nb.add(self.tab_ex, text="実験")
 
     def on_closing(self):
         # if messagebox.askokcancel("Quit","Do you want to quit ?"):
