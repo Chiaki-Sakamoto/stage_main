@@ -435,8 +435,8 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.ser.write("Q:\r\n".encode("ascii"))
         current_status = self.ser.readline()
         current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
-        print("current angle: %s\n" % current_angle)
         current_angle = float(current_angle) / 400
+        print("current angle: %f\n" % current_angle)
         angle_move_to_init = (current_angle - start_angle) * 400
         print("init move angle: %f" % (angle_move_to_init / 400))
         if (angle_move_to_init >= 0):
@@ -449,7 +449,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
             )
         self.ser.write("G\r\n".encode("ascii"))
         self.READY()
-        time.sleep(2)
+        print("ok!\n")
         for i in range(mesure_number):
             self.ser.write(
                 ("M:1%sP%d\r\n" % (
