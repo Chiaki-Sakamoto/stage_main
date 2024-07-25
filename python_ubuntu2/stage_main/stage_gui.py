@@ -688,88 +688,182 @@ class Gui(tk.Frame):
     # 自動保存 #
     def gui_auto_save(self):
         self.tab_auto_save = tk.Frame(self.nb)
-        self.nb.add(self.tab_auto_save, text="自動回転保存")
-        self.saveframe = tk.LabelFrame(
+        self.nb.add(self.tab_auto_save, text="自動保存")
+        self.auto_save_setframe = tk.LabelFrame(
             self.tab_auto_save,
-            width=500,
-            height=170,
+            width=250,
+            height=220,
+            text="初期設定",
+            font=self.font,
             bg=self.color
         )  # frame
-        self.saveframe.grid(row=0, column=0)
-        self.saveframe.grid_propagate(False)
-        self.savedirectory = tk.Label(
-            self.saveframe,
-            text="保存先のディレクトリ",
+        self.auto_save_setframe.grid(row=0, column=0)
+        self.auto_save_setframe.grid_propagate(False)
+        self.auto_save_start = tk.Label(
+            self.auto_save_setframe,
+            text="開始角度",
             font=self.font,
-            bg=self.color)  # labelS
-        self.savedirectory.grid(
-            row=0,
-            column=0,
-            padx=10,
-            pady=(10, 5),
-            sticky=tk.W
-        )
-        self.savedirectory_box = tk.Entry(
-            self.saveframe,
-            width=40,
+            bg=self.color
+        )  # label
+        self.auto_save_start.grid(row=0, column=0, padx=5, pady=10)
+        self.auto_save_start_box = tk.Entry(
+            self.auto_save_setframe,
+            width=3,
+            font=self.font
+        )  # txtbox
+        self.auto_save_start_box.grid(row=0, column=1, padx=10)
+        self.auto_save_start_box.insert(tk.END, "-30")
+        self.auto_save_end = tk.Label(
+            self.auto_save_setframe,
+            text="終了角度",
+            font=self.font,
+            bg=self.color
+        )  # label
+        self.auto_save_end.grid(row=1, column=0, pady=10)
+        self.auto_save_end_box = tk.Entry(
+            self.auto_save_setframe,
+            width=3,
+            font=self.font
+        )  # txtbox
+        self.auto_save_end_box.grid(row=1, column=1)
+        self.auto_save_end_box.insert(tk.END, "30")
+        self.auto_save_width = tk.Label(
+            self.auto_save_setframe,
+            text="角度幅",
+            font=self.font,
+            bg=self.color
+        )  # label
+        self.auto_save_width.grid(row=2, column=0, pady=10)
+        self.auto_save_width_box = tk.Entry(
+            self.auto_save_setframe,
+            width=3,
+            font=self.font
+        )  # txtbox
+        self.auto_save_width_box.grid(row=2, column=1)
+        self.auto_save_width_box.insert(tk.END, "1")
+        self.auto_save_chanelname = tk.Label(
+            self.auto_save_setframe,
+            text="保存する波形",
+            font=self.font,
+            bg=self.color)  # label
+        self.auto_save_chanelname.grid(row=3, column=0, pady=10)
+        self.auto_save_chanel = ttk.Combobox(
+            self.auto_save_setframe,
+            textvariable=self.ex_C,
+            values=["C1", "C2", "C3", "C4"],
+            width=3,
+            font=self.font
+        )  # txtbox
+        self.auto_save_chanel.set("C3")
+        self.auto_save_chanel.grid(row=3, column=1, padx=10)
+        self.autosave_saveframe = tk.LabelFrame(
+            self.tab_auto_save,
+            width=500,
+            height=220,
+            text="保存",
+            font=self.font,
+            bg=self.color
+        )  # frame
+        self.auto_save_saveframe.grid(row=0, column=1)
+        self.auto_save_saveframe.grid_propagate(False)
+        self.auto_save_savedirectory = tk.Label(
+            self.auto_save_saveframe,
+            text=u"保存先のディレクトリ",
+            font=self.font,
+            bg=self.color
+        )  # label
+        self.auto_save_savedirectory.grid(row=0, column=0, pady=(10, 5), sticky=tk.W)
+        self.auto_save_savedirectory_box = tk.Entry(
+            self.auto_save_saveframe,
+            width=30,
             textvariable=self.dirname
         )  # txtbox
-        self.savedirectory_box.grid(row=1, column=0)
-        self.dirname.set("./experiment/1229/")
-        self.sansyou = tk.Button(
-            self.saveframe,
+        self.auto_save_savedirectory_box.grid(row=1, column=0, pady=10)
+        self.auto_save_sansyou = tk.Button(
+            self.auto_save_saveframe,
             text="参照",
             font=self.font,
             activebackground="blue",
             activeforeground="white"
         )
-        self.sansyou.bind("<Button-1>", lambda event: self.directory())
-        self.sansyou.grid(row=1, column=1)
-        self.savename = tk.Label(
-            self.saveframe,
-            text="保存するファイル名(拡張子不要)",
+        self.auto_save_sansyou.bind("<Button-1>", lambda event: self.directory())
+        self.auto_save_sansyou.grid(row=0, column=0, padx=(100, 5))
+        self.auto_save_savename = tk.Label(
+            self.auto_save_saveframe,
+            text=u"保存するファイル名(拡張子不要)",
             font=self.font,
             bg=self.color
         )  # label
-        self.savename.grid(row=2, column=0, padx=10, pady=(10, 5), sticky=tk.W)
-        self.savename_box = tk.Entry(self.saveframe, width=40)  # txtbox
-        self.savename_box.grid(row=3, column=0)
-        self.savename_box.insert(tk.END, "test")
-        self.exeframe_2 = tk.LabelFrame(
+        self.auto_save_savename.grid(row=2, column=0, pady=(10, 5), sticky=tk.W)
+        self.auto_save_savename_box = tk.Entry(self.auto_save_saveframe, width=30)  # txtbox
+        self.auto_save_savename_box.grid(row=3, column=0, pady=10)
+        self.auto_save_savename_box.insert(tk.END, "test")
+        self.auto_save_exeframe = tk.LabelFrame(
             self.tab_auto_save,
-            width=500,
-            height=170,
+            width=750,
+            height=120,
             bg=self.color,
             relief="groove",
             bd=10
         )  # frame
-        self.exeframe_2.grid(row=1, column=0)
-        self.exeframe_2.grid_propagate(False)
-        self.chanelname = tk.Label(
-            self.exeframe_2,
-            text=u"保存する波形",
-            font=self.font,
-            bg=self.color)  # label
-        self.chanelname.grid(row=0, column=0, padx=10, pady=60)
-        self.chanel = ttk.Combobox(
-            self.exeframe_2,
-            textvariable=self.C,
-            values=["C1", "C2", "C3", "C4"],
-            width=5,
-            font=self.font
-        )  # combobox
-        self.chanel.set("C1")
-        self.chanel.grid(row=0, column=1, padx=10)  # ,sticky=tkinter.S)
-        self.save_B = tk.Button(
-            self.exeframe_2,
-            text=u"波形の保存",
-            width=15,
+        self.auto_save_exeframe.grid(row=1, column=0, columnspan=2)
+        self.auto_save_exeframe.grid_propagate(False)
+        self.hakei_B = tk.Button(
+            self.auto_save_exeframe,
+            text="波形取得",
+            width=10,
             height=3,
             font=self.font,
             activebackground="blue",
             activeforeground="white"
         )  # button
-        self.save_B.grid(row=0, column=3, padx=50)
+        self.hakei_B.grid(
+            row=0,
+            rowspan=2,
+            column=0,
+            padx=10,
+            pady=10,
+            sticky=tk.S+tk.N
+        )
+        self.keisoku_B = tk.Button(
+            self.auto_save_exeframe,
+            text="計測開始",
+            width=10,
+            height=3,
+            font=self.font,
+            activebackground="blue",
+            activeforeground="white"
+        )  # button
+        self.keisoku_B.grid(
+            row=0,
+            rowspan=2,
+            column=1,
+            padx=10,
+            pady=10,
+            sticky=tk.S+tk.N
+        )
+        self.stop_B = tk.Button(
+            self.auto_save_exeframe,
+            text="強制終了",
+            width=10,
+            height=3,
+            font=self.font,
+            activebackground="blue",
+            activeforeground="white"
+        )  # button
+        self.stop_B.grid(row=0, rowspan=2, column=2, pady=10, sticky=tk.S+tk.N)
+        self.auto_save_now_theta = tk.Label(
+            self.auto_save_exeframe,
+            text="現在の角度",
+            font=self.font,
+            bg=self.color
+        )  # label
+        self.auto_save_now_theta.grid(row=0, column=3, padx=10)
+        self.auto_save_now_theta_txt = tk.Label(
+            self.auto_save_exeframe,
+            textvariable=self.angle,
+            bg=self.color
+        )  # label
 
     def on_closing(self):
         # if messagebox.askokcancel("Quit","Do you want to quit ?"):
