@@ -435,13 +435,9 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
             100,
             100
         )).encode("ascii"))
+        self.ser.write("Q:\r\n".encode("ascii"))
         current_status = self.ser.readline()
-        print(current_status)
-        current_angle = chr(current_status[5])
-        + chr(current_status[6])
-        + chr(current_status[7])
-        + chr(current_status[8])
-        + chr(current_status[9])
+        current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
         current_angle = float(current_angle) / 400
         print(int(self.current_angl))
         angle_move_to_init = (current_angle - start_angle) * 400
