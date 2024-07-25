@@ -452,10 +452,10 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.ser.write("G\r\n".encode("ascii"))
         for i in range(self.mesure_number):
             self.ser.write(
-                "M:2%sP%d\r\n" % (
+                ("M:2%sP%d\r\n" % (
                     direction_rotate,
-                    abs(width_angle).encode("ascii")
-                    )
+                    abs(width_angle)
+                    )).encode("ascii")
             )
             time.sleep(200)
         print("\e[38;5;30mEnd of measurement\e[0m\n")
