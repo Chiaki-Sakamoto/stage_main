@@ -836,7 +836,7 @@ class Gui(tk.Frame):
         )  # button
         self.auto_save_B.grid(
             row=0,
-            rowspan=2,
+            rowspan=3,
             column=1,
             padx=10,
             pady=10,
