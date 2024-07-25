@@ -416,8 +416,8 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
 
     def auto_save(self):
         print("\e[38;5;30mexe auto save\e[0m\n")
-        start_angle = float(self.auto_save_start_box.get())
-        end_angle = float(self.auto_save_end_box.get())
+        start_angle = float(self.auto_save_start_box.get()) + 90
+        end_angle = float(self.auto_save_end_box.get()) + 90
         width_angle = float(self.auto_save_width_box.get()) * 400
         if (start_angle >= end_angle):
             direction_rotate = '-'
