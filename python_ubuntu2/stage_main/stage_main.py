@@ -56,7 +56,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.save_B.bind("<Button-1>", lambda event: self.save())
         self.hakei_B.bind("<Button-1>", lambda event: self.timewave())
         self.keisoku_B.bind("<Button-1>", lambda event: self.experiment())
-        self.auto_save_B.bind("<Button-1)", lambda event: self.auto_save())
+        self.auto_save_B.bind("<Button-1>", lambda event: self.auto_save())
         self.stop_B.bind("<Button-1>", lambda event: self.stop())
         self.property_B.bind(
             "<Button-1>",
