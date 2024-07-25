@@ -828,7 +828,7 @@ class Gui(tk.Frame):
         self.auto_save_B = tk.Button(
             self.auto_save_exeframe,
             text="自動回転波形保存開始",
-            width=15,
+            width=16,
             height=3,
             font=self.font,
             activebackground="blue",
