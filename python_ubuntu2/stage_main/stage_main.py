@@ -425,17 +425,18 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         else:
             direction_rotate = '-'
         mesure_number = int(
-            (end_angle - start_angle / width_angle + 1)
+            ((end_angle - start_angle) / width_angle + 1)
         )
+        print("mesure_number: %d" % mesure_number)
         self.ser.write(("D:2S%sF%sR%sS100F1000R200\r\n" % (
-            200,
-            200,
-            200
+            300,
+            300,
+            300
         )).encode("ascii"))
         self.ser.write("Q:\r\n".encode("ascii"))
         current_status = self.ser.readline()
         current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
-        current_angle = float(current_angle) / 400
+        current_angle = float(int(current_angle) / 400)
         print("current angle: %f\n" % current_angle)
         angle_move_to_init = (current_angle - start_angle) * 400
         print("init move angle: %f" % (angle_move_to_init / 400))
