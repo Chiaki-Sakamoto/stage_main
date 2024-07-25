@@ -33,6 +33,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         super().__init__(master)  # Guiクラスのコンストラクタを呼び出す
         self.master = master
         self.sername = "/dev/ttyUSB0"  # ステージコントローラーの usb ポート指定
+        self._oshiro_ip = "192.168.2.20"
         # self.sername = \
         # "/dev/serial/by-path/pci-0000:00:06.0-usb-0:1:1.0-port0"
         self.ser = serial.Serial(
@@ -415,62 +416,37 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         return ssh_voltage, ssh_pressure
 
     def auto_save(self):
-        print("\e[38;5;30mexe auto save\e[0m\n")
+        print("\033[38;5;30mexe auto save\033[0m\n")
         start_angle = float(self.auto_save_start_box.get()) + 80.0
         end_angle = float(self.auto_save_end_box.get()) + 80.0
-        print("start:%f, end:%f\n" % (start_angle, end_angle))
         width_angle = float(self.auto_save_width_box.get())
-        if (start_angle >= end_angle):
-            direction_rotate = '-'
-        else:
-            direction_rotate = '+'
-        mesure_number = int(
-            ((end_angle - start_angle) / width_angle)
-        )
-        print("mesure_number: %d" % mesure_number)
+        mesure_number = int(((end_angle - start_angle) / width_angle))
+        current_angle = self._get_current_angle()
+        angle_move_to_init = current_angle - start_angle
+        direction_rotate = '-' if start_angle >= end_angle else '+'
+
+        print("start:%f, end:%f, mesure_number:%d\n" % (start_angle, end_angle, mesure_number))
+        print("current angle: %f\n" % current_angle)
+        print("init move angle: %f" % (angle_move_to_init / 400))
         self.ser.write(("D:2S%sF%sR%sS100F1000R200\r\n" % (
             400,
             400,
             400
         )).encode("ascii"))
-        self.ser.write("Q:\r\n".encode("ascii"))
-        current_status = self.ser.readline()
-        current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
-        current_angle = float(int(current_angle) / 400)
-        print("current angle: %f\n" % current_angle)
-        angle_move_to_init = (current_angle - start_angle) * 400
-        print("init move angle: %f" % (angle_move_to_init / 400))
         if (angle_move_to_init >= 0):
-            self.ser.write(
-                ("M:1-P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
-            )
+            self.ser.write("-", angle_move_to_init)
         else:
-            self.ser.write(
-                ("M:1+P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
-            )
+            self._rotate_stage("+", angle_move_to_init)
         self.ser.write("G\r\n".encode("ascii"))
         self.READY()
-        print("ok!")
         self.ser.write("Q:\r\n".encode("ascii"))
-        current_status = self.ser.readline()
-        current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
-        current_angle = float(current_angle) / 400
-        print("current angle: %f\n" % current_angle)
+        print("current angle: %f\n" % self._get_current_angle())
+        self._save_wave(self.auto_save_savename_box.get() + str(start_angle))
         for i in range(mesure_number):
-            self.ser.write(
-                ("M:1%sP%d\r\n" % (
-                    direction_rotate,
-                    abs(width_angle * 400)
-                    )).encode("ascii")
-            )
-            self.ser.write("G\r\n".encode("ascii"))
-            self.READY()
-        self.ser.write("Q:\r\n".encode("ascii"))
-        current_status = self.ser.readline()
-        current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
-        current_angle = float(current_angle) / 400
-        print("current angle: %f\n" % current_angle)
-        print("\e[38;5;30mEnd of measurement\e[0m\n")
+            self._rotate_stage(direction_rotate, width_angle)
+            self._save_wave(self.auto_save_savename_box.get() + str(start_angle + (i + 1) * width_angle))
+        print("current angle: %f\n" % self._get_current_angle())
+        print("\033[38;5;30mEnd of measurement\033[0m\n")
 
     def on_closing(self):
         # if messagebox.askokcancel("Quit","Do you want to quit ?"):
@@ -479,6 +455,52 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.ser.close()  # serial 通信の終了
         self.master.quit()  # gui の終了
         sys.exit()  # プログラムの終了
+
+    def _get_current_angle(self):
+        self.ser.write("Q:\r\n".encode("ascii"))
+        current_status = self.ser.readline()
+        current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
+        current_angle = float(int(current_angle) / 400)
+        return current_angle
+
+    def _rotate_stage(self, direction, angle):
+        self.ser.write(
+            ("M:1%sP%d\r\n" % (direction, angle * 400)).encode("ascii")
+        )
+        self.ser.write("G\r\n".encode("ascii"))
+        self.READY()
+
+    def _save_wave(self, file_name):
+        os.makedirs(
+            "%s" % self.auto_save_savedirectory_box.get(), exist_ok=True
+        )
+        obj = PythonDSO.LecroyVICP(self._oshiro_ip)
+        sclwt_trace = obj.get_scaled_waveform_withtime(
+            "%s" % self.auto_save_chanel.get()
+        )
+        obj.disconnect()
+        with open(
+            "%s%s.txt" %
+            (
+                self.auto_save_savedirectory_box.get(),
+                file_name
+            ), "w"
+        ) as file:
+            file.write(
+                "保存した波形 %s\r\n 1 列目は時間,2 列目は信号値\r\n \r\n" % (self.auto_save_chanel.get())
+            )
+            for i in range(len(sclwt_trace[1])):
+                file.write(
+                    "{},{}\r\n".format(
+                        sclwt_trace[0][i],
+                        sclwt_trace[1][i]
+                    )
+                )
+            file.close()
+        self.txt.insert(
+            tk.END,
+            "%s の波形を保存しました\r\n" % self.auto_save_chanel.get()
+        )
 
 
 def main():
