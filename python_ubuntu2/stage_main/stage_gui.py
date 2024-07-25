@@ -825,16 +825,16 @@ class Gui(tk.Frame):
             pady=10,
             sticky=tk.S+tk.N
         )
-        self.keisoku_B = tk.Button(
+        self.auto_save_B = tk.Button(
             self.auto_save_exeframe,
-            text="計測開始",
+            text="自動回転波形保存開始",
             width=10,
             height=3,
             font=self.font,
             activebackground="blue",
             activeforeground="white"
         )  # button
-        self.keisoku_B.grid(
+        self.auto_save_B.grid(
             row=0,
             rowspan=2,
             column=1,
