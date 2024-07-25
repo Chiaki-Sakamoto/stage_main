@@ -427,9 +427,9 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
             (end_angle - start_angle / width_angle + 1)
         )
         self.ser.write(("D:2S%sF%sR%sS100F1000R200\r\n" % (
-            100,
-            100,
-            100
+            200,
+            200,
+            200
         )).encode("ascii"))
         self.ser.write("Q:\r\n".encode("ascii"))
         current_status = self.ser.readline()
