@@ -450,6 +450,11 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.ser.write("G\r\n".encode("ascii"))
         self.READY()
         print("ok!\n")
+        self.ser.write("Q:\r\n".encode("ascii"))
+        current_status = self.ser.readline()
+        current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
+        current_angle = float(current_angle) / 400
+        print("current angle: %f\n" % current_angle)
         for i in range(mesure_number):
             self.ser.write(
                 ("M:1%sP%d\r\n" % (
