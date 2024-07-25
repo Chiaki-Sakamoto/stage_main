@@ -436,6 +436,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
             100
         )).encode("ascii"))
         current_status = self.ser.readline()
+        print(current_status)
         current_angle = chr(current_status[5])
         + chr(current_status[6])
         + chr(current_status[7])
