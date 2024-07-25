@@ -416,16 +416,16 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
 
     def auto_save(self):
         print("\e[38;5;30mexe auto save\e[0m\n")
-        start_angle = float(self.auto_save_start_box.get()) + 90
-        end_angle = float(self.auto_save_end_box.get()) + 90
+        start_angle = float(self.auto_save_start_box.get()) + 90.0
+        end_angle = float(self.auto_save_end_box.get()) + 90.0
         print(stage_gui)
         print(end_angle)
-        width_angle = float(self.auto_save_width_box.get()) * 400
+        width_angle = float(self.auto_save_width_box.get())
         if (start_angle >= end_angle):
             direction_rotate = '-'
         else:
             direction_rotate = '+'
-        self.mesure_number = int(
+        mesure_number = int(
             (end_angle - start_angle / width_angle + 1)
         )
         self.ser.write(("D:2S%sF%sR%sS100F1000R200\r\n" % (
@@ -439,6 +439,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         current_angle = float(current_angle) / 400
         print(int(current_angle))
         angle_move_to_init = (current_angle - start_angle) * 400
+        print(angle_move_to_init)
         if (angle_move_to_init >= 0):
             self.ser.write(
                 ("M:1+P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
@@ -450,11 +451,11 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.ser.write("G\r\n".encode("ascii"))
         self.READY()
         time.sleep(2)
-        for i in range(self.mesure_number):
+        for i in range(mesure_number):
             self.ser.write(
                 ("M:1%sP%d\r\n" % (
                     direction_rotate,
-                    abs(width_angle)
+                    abs(width_angle * 400)
                     )).encode("ascii")
             )
             self.ser.write("G\r\n".encode("ascii"))
