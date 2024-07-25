@@ -418,8 +418,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         print("\e[38;5;30mexe auto save\e[0m\n")
         start_angle = float(self.auto_save_start_box.get()) + 90.0
         end_angle = float(self.auto_save_end_box.get()) + 90.0
-        print(stage_gui)
-        print(end_angle)
+        print("start:%f, end:%f\n" % (start_angle, end_angle))
         width_angle = float(self.auto_save_width_box.get())
         if (start_angle >= end_angle):
             direction_rotate = '-'
@@ -436,10 +435,10 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.ser.write("Q:\r\n".encode("ascii"))
         current_status = self.ser.readline()
         current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
+        print("current angle: %s\n" % current_angle)
         current_angle = float(current_angle) / 400
-        print(int(current_angle))
         angle_move_to_init = (current_angle - start_angle) * 400
-        print(angle_move_to_init)
+        print("init move angle: %f" % angle_move_to_init / 400)
         if (angle_move_to_init >= 0):
             self.ser.write(
                 ("M:1+P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
