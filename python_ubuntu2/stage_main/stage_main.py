@@ -450,6 +450,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
                 ("M:2-P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
             )
         self.ser.write("G\r\n".encode("ascii"))
+        time.sleep(2)
         for i in range(self.mesure_number):
             self.ser.write(
                 ("M:2%sP%d\r\n" % (
@@ -458,6 +459,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
                     )).encode("ascii")
             )
             self.ser.write("G\r\n".encode("ascii"))
+            time.sleep(2)
         print("\e[38;5;30mEnd of measurement\e[0m\n")
 
     def on_closing(self):
