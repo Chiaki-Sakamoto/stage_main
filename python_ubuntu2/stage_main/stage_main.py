@@ -273,11 +273,11 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.degree = int(self.move_dis_1 / 400)  # パルスを角度に変換
         if (self.move_dis_1 > 0):  # 時計回りに
             self.ser.write(
-                ("M:2+P%d\r\n" % abs(self.move_dis_1)).encode("ascii")
+                ("M:1+P%d\r\n" % abs(self.move_dis_1)).encode("ascii")
             )
         else:  # 反時計回りに
             self.ser.write(
-                ("M:2-P%d\r\n" % abs(self.move_dis_1)).encode("ascii")
+                ("M:1-P%d\r\n" % abs(self.move_dis_1)).encode("ascii")
             )
         self.ser.write("G\r\n".encode("ascii"))  # 動かせ
         self.READY()  # ready 状態にする
@@ -439,18 +439,18 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         angle_move_to_init = (current_angle - start_angle) * 400
         if (angle_move_to_init >= 0):
             self.ser.write(
-                ("M:2+P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
+                ("M:1+P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
             )
         else:
             self.ser.write(
-                ("M:2-P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
+                ("M:1-P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
             )
         self.ser.write("G\r\n".encode("ascii"))
         self.READY()
         time.sleep(2)
         for i in range(self.mesure_number):
             self.ser.write(
-                ("M:2%sP%d\r\n" % (
+                ("M:1%sP%d\r\n" % (
                     direction_rotate,
                     abs(width_angle)
                     )).encode("ascii")
