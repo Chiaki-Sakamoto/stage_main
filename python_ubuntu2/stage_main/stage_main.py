@@ -439,7 +439,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         current_status = self.ser.readline()
         current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
         current_angle = float(current_angle) / 400
-        print(int(self.current_angl))
+        print(int(current_angle))
         angle_move_to_init = (current_angle - start_angle) * 400
         if (angle_move_to_init >= 0):
             self.ser.write(
