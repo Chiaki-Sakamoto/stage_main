@@ -449,7 +449,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
             self.ser.write(
                 ("M:2-P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
             )
-        self.ser.write("G\r\n".encode("ascii"))
+        self.ser.write("G\r\n").encode("ascii")
         for i in range(self.mesure_number):
             self.ser.write(
                 "M:2%sP%d\r\n" % (
