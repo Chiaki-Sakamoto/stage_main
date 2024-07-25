@@ -687,10 +687,10 @@ class Gui(tk.Frame):
 
     # 自動保存 #
     def gui_auto_save(self):
-        self.auto_save = tk.Frame(self.nb)
-        self.nb.add(self.tab_ex, text="自動回転保存")
+        self.tab_auto_save = tk.Frame(self.nb)
+        self.nb.add(self.tab_auto_save, text="自動回転保存")
         self.saveframe = tk.LabelFrame(
-            self.tab_oshiro,
+            self.tab_auto_save,
             width=500,
             height=170,
             bg=self.color
@@ -736,7 +736,7 @@ class Gui(tk.Frame):
         self.savename_box.grid(row=3, column=0)
         self.savename_box.insert(tk.END, "test")
         self.exeframe_2 = tk.LabelFrame(
-            self.tab_oshiro,
+            self.tab_auto_save,
             width=500,
             height=170,
             bg=self.color,
