@@ -438,7 +438,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         print("current angle: %s\n" % current_angle)
         current_angle = float(current_angle) / 400
         angle_move_to_init = (current_angle - start_angle) * 400
-        print("init move angle: %f" % angle_move_to_init / 400)
+        print("init move angle: %f" % (angle_move_to_init / 400))
         if (angle_move_to_init >= 0):
             self.ser.write(
                 ("M:1+P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
