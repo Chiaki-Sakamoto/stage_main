@@ -382,11 +382,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.status = self.ser.readline()  # 状態をよみとる．
         self.txt.insert(tk.END, "%s\r\n" % self.status)
         self.txt.see("end")
-        self.degree = chr(self.status[5])
-        + chr(self.status[6])
-        + chr(self.status[7])
-        + chr(self.status[8])
-        + chr(self.status[9])  # asciiをstrに直す．パルスの 5 桁までを読み込む(角度は 250 まで)．
+        self.degree = chr(self.status[5]) + chr(self.status[6]) + chr(self.status[7]) + chr(self.status[8]) + chr(self.status[9])  # asciiをstrに直す．パルスの 5 桁までを読み込む(角度は 250 まで)．
         self.degree = int(self.degree)  # degree はstr(文字列)なのでint(数字)に直す.
         self.degree = (self.degree) / 400  # パルスを角度に変換．-1 は止まる際に動く距離．修正する個所．
         self.angle.set("%d" % self.degree)  # 現在の角度を Gui 上に表示
