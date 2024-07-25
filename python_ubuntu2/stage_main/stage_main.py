@@ -416,8 +416,8 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
 
     def auto_save(self):
         print("\e[38;5;30mexe auto save\e[0m\n")
-        start_angle = float(self.auto_save_start_box.get()) + 90.0
-        end_angle = float(self.auto_save_end_box.get()) + 90.0
+        start_angle = float(self.auto_save_start_box.get()) + 80.0
+        end_angle = float(self.auto_save_end_box.get()) + 80.0
         print("start:%f, end:%f\n" % (start_angle, end_angle))
         width_angle = float(self.auto_save_width_box.get())
         if (start_angle >= end_angle):
@@ -429,9 +429,9 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         )
         print("mesure_number: %d" % mesure_number)
         self.ser.write(("D:2S%sF%sR%sS100F1000R200\r\n" % (
-            300,
-            300,
-            300
+            400,
+            400,
+            400
         )).encode("ascii"))
         self.ser.write("Q:\r\n".encode("ascii"))
         current_status = self.ser.readline()
