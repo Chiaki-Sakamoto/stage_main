@@ -56,6 +56,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.save_B.bind("<Button-1>", lambda event: self.save())
         self.hakei_B.bind("<Button-1>", lambda event: self.timewave())
         self.keisoku_B.bind("<Button-1>", lambda event: self.experiment())
+        self.auto_save_B.bind("<Button-1)", lambda event: self.auto_save())
         self.stop_B.bind("<Button-1>", lambda event: self.stop())
         self.property_B.bind(
             "<Button-1>",
@@ -416,6 +417,47 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         ssh_pressure = (ssh_voltage-0.590)/3.975
         self.now_pressure.set("%0.3f" % ssh_pressure)  # 現在の角度を Gui 上に表示
         return ssh_voltage, ssh_pressure
+
+    def auto_save(self):
+        print("\e[38;5;30mexe auto save\e[0m\n")
+        start_angle = float(self.auto_save_start_box.get())
+        end_angle = float(self.auto_save_end_box.get())
+        width_angle = float(self.auto_save_width_box.get()) * 400
+        if (start_angle >= end_angle):
+            direction_rotate = '-'
+        else:
+            direction_rotate = '+'
+        self.mesure_number = int(
+            (end_angle - start_angle / width_angle + 1)
+        )
+        self.ser.write(("D:2S%sF%sR%sS100F1000R200\r\n" % (
+            100,
+            100,
+            100
+        )).encode("ascii"))
+        current_status = self.ser.readline()
+        current_angle = ''.join([chr(current_status[i]) for i in range(5, 10)])
+        current_angle = float(current_angle) / 400
+        print(int(self.current_angl))
+        angle_move_to_init = (current_angle - start_angle) * 400
+        if (angle_move_to_init >= 0):
+            self.ser.write(
+                ("M:2+P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
+            )
+        else:
+            self.ser.write(
+                ("M:2-P%d\r\n" % abs(angle_move_to_init)).encode("ascii")
+            )
+        self.ser.write("G\r\n".encode("ascii"))
+        for i in range(self.mesure_number):
+            self.ser.write(
+                "M:2%sP%d\r\n" % (
+                    direction_rotate,
+                    abs(width_angle)
+                    ).encode("ascii")
+            )
+            time.sleep(200)
+        print("\e[38;5;30mEnd of measurement\e[0m\n")
 
     def on_closing(self):
         # if messagebox.askokcancel("Quit","Do you want to quit ?"):
