@@ -420,7 +420,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         start_angle = float(self.auto_save_start_box.get()) + 80.0
         end_angle = float(self.auto_save_end_box.get()) + 80.0
         width_angle = float(self.auto_save_width_box.get())
-        mesure_number = abs(((end_angle - start_angle) / width_angle))
+        mesure_number = int(abs(((end_angle - start_angle) / width_angle)))
         current_angle = self._get_current_angle()
         angle_move_to_init = current_angle - start_angle
         direction_rotate = '-' if start_angle >= end_angle else '+'
