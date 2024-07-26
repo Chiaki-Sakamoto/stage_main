@@ -434,7 +434,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
             400
         )).encode("ascii"))
         if (angle_move_to_init >= 0):
-            self.ser.write("-", angle_move_to_init)
+            self._rotate_stage("-", angle_move_to_init)
         else:
             self._rotate_stage("+", angle_move_to_init)
         self.ser.write("G\r\n".encode("ascii"))
