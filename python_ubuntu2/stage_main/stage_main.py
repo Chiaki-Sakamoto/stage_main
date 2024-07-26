@@ -427,7 +427,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
 
         print("start:%f, end:%f, mesure_number:%d\n" % (start_angle, end_angle, mesure_number))
         print("current angle: %f\n" % current_angle)
-        print("init move angle: %f" % (angle_move_to_init / 400))
+        print("init move angle: %f" % angle_move_to_init)
         self.ser.write(("D:2S%sF%sR%sS100F1000R200\r\n" % (
             400,
             400,
