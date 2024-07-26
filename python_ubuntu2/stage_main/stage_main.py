@@ -447,9 +447,9 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
             self._rotate_stage(direction_rotate, width_angle)
             time.sleep(3)
             if (start_angle <= end_angle):
-                self._save_wave(self.auto_save_savename_box.get() + str(start_angle + (i + 1) * width_angle))
+                self._save_wave(self.auto_save_savename_box.get() + str(int(start_angle + (i + 1) * width_angle - 80)))
             else:
-                self._save_wave(self.auto_save_savename_box.get() + str(start_angle - (i + 1) * width_angle))
+                self._save_wave(self.auto_save_savename_box.get() + str(int(start_angle - (i + 1) * width_angle - 80)))
         print("current angle: %f\n" % self._get_current_angle())
         print("\033[38;5;30mEnd of measurement\033[0m\n")
 
