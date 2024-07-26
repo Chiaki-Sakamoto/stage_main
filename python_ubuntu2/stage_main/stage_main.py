@@ -442,7 +442,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.ser.write("Q:\r\n".encode("ascii"))
         print("current angle: %f\n" % self._get_current_angle())
         time.sleep(3)
-        self._save_wave(self.auto_save_savename_box.get() + str(start_angle))
+        self._save_wave(self.auto_save_savename_box.get() + str(int(start_angle - 90)))
         for i in range(mesure_number):
             self._rotate_stage(direction_rotate, width_angle)
             time.sleep(3)
