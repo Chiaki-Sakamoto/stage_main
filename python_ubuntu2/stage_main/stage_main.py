@@ -429,14 +429,14 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         print("current angle: %f\n" % current_angle)
         print("init move angle: %f" % angle_move_to_init)
         self.ser.write(("D:2S%sF%sR%sS100F1000R200\r\n" % (
-            500,
-            500,
-            500
+            400,
+            400,
+            400
         )).encode("ascii"))
         if (angle_move_to_init >= 0):
-            self._rotate_stage("-", angle_move_to_init)
+            self._rotate_stage("-", abs(angle_move_to_init))
         else:
-            self._rotate_stage("+", angle_move_to_init)
+            self._rotate_stage("+", abs(angle_move_to_init))
         self.ser.write("G\r\n".encode("ascii"))
         self.READY()
         self.ser.write("Q:\r\n".encode("ascii"))
