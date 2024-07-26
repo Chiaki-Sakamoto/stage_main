@@ -441,10 +441,15 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.READY()
         self.ser.write("Q:\r\n".encode("ascii"))
         print("current angle: %f\n" % self._get_current_angle())
+        time.sleep(3)
         self._save_wave(self.auto_save_savename_box.get() + str(start_angle))
         for i in range(mesure_number):
             self._rotate_stage(direction_rotate, width_angle)
-            self._save_wave(self.auto_save_savename_box.get() + str(start_angle + (i + 1) * width_angle))
+            time.sleep(3)
+            if (start_angle <= end_angle):
+                self._save_wave(self.auto_save_savename_box.get() + str(start_angle + (i + 1) * width_angle))
+            else:
+                self._save_wave(self.auto_save_savename_box.get() + str(start_angle - (i + 1) * width_angle))
         print("current angle: %f\n" % self._get_current_angle())
         print("\033[38;5;30mEnd of measurement\033[0m\n")
 
