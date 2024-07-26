@@ -445,6 +445,7 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self._save_wave(self.auto_save_savename_box.get() + str(int(start_angle - 80)))
         for i in range(mesure_number):
             self._rotate_stage(direction_rotate, width_angle)
+            time.sleep(5)
             if (start_angle <= end_angle):
                 self._save_wave(self.auto_save_savename_box.get() + str(int(start_angle + (i + 1) * width_angle - 80)))
             else:
