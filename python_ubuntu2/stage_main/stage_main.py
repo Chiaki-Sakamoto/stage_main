@@ -417,8 +417,8 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
 
     def auto_save(self):
         print("\033[38;5;30mexe auto save\033[0m\n")
-        start_angle = float(self.auto_save_start_box.get()) + 70.0
-        end_angle = float(self.auto_save_end_box.get()) + 70.0
+        start_angle = float(self.auto_save_start_box.get()) + 30.0
+        end_angle = float(self.auto_save_end_box.get()) + 30.0
         width_angle = float(self.auto_save_width_box.get())
         mesure_number = int(abs(((end_angle - start_angle) / width_angle)))
         current_angle = self._get_current_angle()
@@ -442,14 +442,14 @@ class Application(stage_gui.Gui):  # stage_gui.Gui を継承
         self.ser.write("Q:\r\n".encode("ascii"))
         print("current angle: %f\n" % self._get_current_angle())
         time.sleep(3)
-        self._save_wave(self.auto_save_savename_box.get() + str(int(start_angle - 70)))
+        self._save_wave(self.auto_save_savename_box.get() + str(int(start_angle - 30)))
         for i in range(mesure_number):
             self._rotate_stage(direction_rotate, width_angle)
             time.sleep(3)
             if (start_angle <= end_angle):
-                self._save_wave(self.auto_save_savename_box.get() + str(int(start_angle + (i + 1) * width_angle - 70)))
+                self._save_wave(self.auto_save_savename_box.get() + str(int(start_angle + (i + 1) * width_angle - 30)))
             else:
-                self._save_wave(self.auto_save_savename_box.get() + str(int(start_angle - (i + 1) * width_angle - 70)))
+                self._save_wave(self.auto_save_savename_box.get() + str(int(start_angle - (i + 1) * width_angle - 30)))
         print("current angle: %f\n" % self._get_current_angle())
         print("\033[38;5;30mEnd of measurement\033[0m\n")
 
